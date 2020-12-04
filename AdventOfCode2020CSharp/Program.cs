@@ -7,15 +7,14 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            DayOneSolution sol1 = new DayOneSolution();
-            var expenses = sol1.GetExpenses();
-            var answer = sol1.SolveExpenseReport(expenses);
+            DayTwoSolutions sol2;
+            List<PasswordRequirement> passwordReqs = sol2.GetInput();
 
-            Console.WriteLine($"The answer is {answer}");
+            sol2.SolveValidPassword(passwordReqs);
+            Console.WriteLine("The correct Answer is 572");
 
-            var answer2 = sol1.SolveExpenseReport2(expenses);
-            Console.WriteLine($"The answer is {answer2}");
-            Console.WriteLine($"The correct answer is {272611658}");
+            sol2.SolveValidPassword2(passwordReqs);
+            Console.WriteLine("The correct Answer is 306");
         }
     }
 }
