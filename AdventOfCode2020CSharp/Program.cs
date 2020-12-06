@@ -22,16 +22,16 @@ namespace AdventOfCode2020CSharp
             Console.WriteLine("Fifth Scenario");
             int count5 = sol3.SolveSlopeProblem(slopes, 2, 1);
 
-            int[] collisions = { count, count2, count3, count4, count5 }; 
+            int[] collisions = { count, count2, count3, count4, count5 };
+
+            int scenario = 1;
+            foreach (int i in collisions)
+            {
+                Console.WriteLine($"Scenario {scenario} answer: ");
+                ++scenario;
+            }
             
-            Console.WriteLine($"my count is: {count}");
-            Console.WriteLine($"my count is: {count2}");
-            Console.WriteLine($"my count is: {count3}");
-            Console.WriteLine($"my count is: {count4}");
-            Console.WriteLine($"my count is: {count5}");
-
             long product = 1;
-
             foreach (int i in collisions)
             {
                 if (i != 0)
