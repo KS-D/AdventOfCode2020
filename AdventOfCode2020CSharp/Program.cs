@@ -15,8 +15,6 @@ namespace AdventOfCode2020CSharp
             List<int> ids = sol5.GetAllSeatIds();
             int mySeat = sol5.FindMySeat(ids);
             Console.WriteLine($"My Seat is:{mySeat}");
-            
-            
         }
     }
 }
