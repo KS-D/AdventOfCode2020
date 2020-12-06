@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2020CSharp
 {
@@ -7,46 +8,23 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            DayThreeSolution sol3 = new();
-
-            List<char[]> slopes = sol3.GetInput();
-
-            Console.WriteLine("First Scenario");
-            int count = sol3.SolveSlopeProblem(slopes);
-            Console.WriteLine("Second Scenario");
-            int count2 = sol3.SolveSlopeProblem(slopes, 1, 1);
-            Console.WriteLine("Third Scenario");
-            int count3 = sol3.SolveSlopeProblem(slopes, 1, 5);
-            Console.WriteLine("Fourth Scenario");
-            int count4 = sol3.SolveSlopeProblem(slopes, 1, 7);
-            Console.WriteLine("Fifth Scenario");
-            int count5 = sol3.SolveSlopeProblem(slopes, 2, 1);
-
-            int[] collisions = { count, count2, count3, count4, count5 }; 
+            DayFourSolutions sol4 = new ();
             
-            Console.WriteLine($"my count is: {count}");
-            Console.WriteLine($"my count is: {count2}");
-            Console.WriteLine($"my count is: {count3}");
-            Console.WriteLine($"my count is: {count4}");
-            Console.WriteLine($"my count is: {count5}");
+            var input = sol4.GetInput();
+           
+            Regex rx = new (@$"(?=.*byr\:)(?=.*iyr\:)(?=.*eyr\:)(?=.*hgt\:)(?=.*hcl\:)(?=.*ecl\:)(?=.*pid\:)");
+            int count = sol4.GetValidPassports(input, rx);
+          
+            //Correct answer for part 1 is 242 
+            Console.WriteLine($"The count of valid passports is: { count }");
+            
+            Regex rx2 = new(@"(?=.*byr\:((19)[2-9][0-9]|(200)[0-2]))(?=.*iyr\:((201)[0-9]|(2020)))" +
+                                   @"(?=.*eyr\:((202)[0-9]|2030))(?=.*hgt\:(((1)[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in))" +
+                                   @"(?=.*hcl\:#[0-9a-fA-F]{6})(?=.*ecl\:(amb|blu|brn|gry|grn|hzl|oth))(?=.*pid\:[0-9]{9}\b)");
 
-            long product = 1;
-
-            foreach (int i in collisions)
-            {
-                if (i != 0)
-                {
-                    product *= i;
-                }
-            }
-
-            Console.WriteLine("\nFirst Answer: ");
-            Console.WriteLine($"my count is: {count}");
-            Console.WriteLine($"The correct count is: {181}");
-
-            Console.WriteLine("\nSecond Answer: ");
-            Console.WriteLine($"The product is: {product}");
-            Console.WriteLine($"The Correct Answer is: {1260601650}");
-        }
+            count = sol4.GetValidPassports(input, rx2);
+            Console.WriteLine($"The count of valid passports is: { count }");
+            //Correct answer is 186
+       }
     }
 }
