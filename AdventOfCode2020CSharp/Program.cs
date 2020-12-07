@@ -7,14 +7,14 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            DayFiveSolution sol5 = new();
-           
-            int highestSeatId = sol5.FindHighestSeatId();
-            Console.WriteLine($"Highest Seat Id: {highestSeatId}");
+            DaySixSolution sol6 = new();
 
-            List<int> ids = sol5.GetAllSeatIds();
-            int mySeat = sol5.FindMySeat(ids);
-            Console.WriteLine($"My Seat is:{mySeat}");
+            List<string> questions = sol6.GetQuestionInput();
+            
+            // 7128 is the correct answer
+            Console.WriteLine($"Here are the unique answers: {sol6.SolveTotalQuestions(questions)}");
+            // 3640 is to high
+            Console.WriteLine($"Here are the shared group totaled: {sol6.SolveDuplicateQuestions(questions)}");
         }
     }
 }
