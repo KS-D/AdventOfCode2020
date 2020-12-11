@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode2020CSharp
 {
@@ -7,19 +8,21 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            DayEightSolution sol8 = new();
+            //string input = "day9_test.txt";
+            string input = "day9.txt";
+            DayNineSolution sol9 = new();
 
-            //var assembly = sol8.GetInput("day8_test.txt");
-            var assembly = sol8.GetInput("day8.txt");
-            (int accumulator, Stack<int> operations) = sol8.RunAssembly(assembly);
-           
-            Console.WriteLine(assembly.Count);
-            Console.WriteLine($"Accumulator is at: {accumulator}");
+            List<long> cypher = sol9.ConvertInputToInt(sol9.GetInput(input));
 
-            sol8.FixAssembly(assembly, operations);
-            (accumulator, _) = sol8.RunAssembly(assembly);
-            // Correct answer: 703
-            Console.WriteLine($"Accumulator: {accumulator}");
+            int invalidIndex = sol9.FindInvalidIndex(input, 25);
+            //int invalidIndex = sol9.FindInvalidIndex("day9.txt", 25);
+            // Correct Answer: 400480901
+            Console.WriteLine($"Invalid: {cypher[invalidIndex]}");
+
+            long encryptionWeakness = sol9.ConstructInvalidData(cypher.GetRange(0, invalidIndex), cypher[invalidIndex]);
+            // Correct Answer: 67587168
+            Console.WriteLine($"encryption weakness: {encryptionWeakness}");
+
         }
     }
 }
