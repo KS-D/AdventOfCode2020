@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdventOfCode2020CSharp
 {
@@ -8,21 +9,27 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            //string input = "day9_test.txt";
-            string input = "day9.txt";
-            DayNineSolution sol9 = new();
+            string input = "day10.txt";
+            //string input = "day10_test0.txt";
+            //string input = "day10_test.txt";
+            DayTenSolution sol10 = new();
 
-            List<long> cypher = sol9.ConvertInputToInt(sol9.GetInput(input));
-
-            int invalidIndex = sol9.FindInvalidIndex(input, 25);
-            //int invalidIndex = sol9.FindInvalidIndex("day9.txt", 25);
-            // Correct Answer: 400480901
-            Console.WriteLine($"Invalid: {cypher[invalidIndex]}");
-
-            long encryptionWeakness = sol9.ConstructInvalidData(cypher.GetRange(0, invalidIndex), cypher[invalidIndex]);
-            // Correct Answer: 67587168
-            Console.WriteLine($"encryption weakness: {encryptionWeakness}");
-
+            var adapters = sol10.ConvertInputToInt(sol10.GetInput(input));
+            
+            adapters.Add(0);
+            adapters.Sort();
+            
+            // part 1
+            int product = sol10.GetProdOfJoltDifference(adapters);
+            //Correct Answer in my data : 2240
+            Console.WriteLine(product);
+            Console.WriteLine();
+           
+            // part 2 
+            var connections = sol10.GenerateDict(adapters);
+            long betterPath3 = sol10.GetPathsFromBegin(connections, adapters[0], new());
+            // The solution for part 2 in my data is: 99214346656768
+            Console.WriteLine($"Better Paths: {betterPath3}");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace AdventOfCode2020CSharp
             return cypher;
         }
 
-        public List<long> ConvertInputToInt(List<string> input) => input.Select(s => long.Parse(s)).ToList();
+        public List<long> ConvertInputToInt(List<string> input) => input.Select(long.Parse).ToList();
 
         public Dictionary<long, List<long>> CalculatePotentialSums(long[] cypher)
         {
