@@ -54,7 +54,6 @@ namespace AdventOfCode2020CSharp
         private char[][] CloneChars(char[][] seats)
         {
             char[][] temp = new char[seats.Length][];
-            int count = 0;
 
             for (int i = 0; i < seats.Length; i++)
             {
@@ -148,55 +147,6 @@ namespace AdventOfCode2020CSharp
             var downBelowDiagonal = GetDiagonalsRowCol(b2, slope2, belowRow, rowBound, colBound);
             var downAboveDiagonal = GetDiagonalsRowCol(b2, slope2, aboveRow, rowBound, colBound);
 
-//#if DEBUG
-//            Console.WriteLine("Lcol");
-//            foreach (var lCol in leftColRange)
-//            {
-//                Console.WriteLine(lCol);
-//            }
-
-//            Console.WriteLine("rCol");
-//            foreach (var rCol in rightColRange)
-//            {
-//                Console.WriteLine(rCol); 
-//            }
-
-//            Console.WriteLine("aboveRow");
-//            foreach (var aRow in aboveRow)
-//            {
-//                Console.WriteLine(aRow);
-//            }
-
-//            Console.WriteLine("belowRow");
-//            foreach (var bRow in belowRow)
-//            {
-//                Console.WriteLine(bRow);
-//            }
-
-//            Console.WriteLine("upBelowDiagonal");
-//            foreach (var upBDiag in upBelowDiagonal)
-//            {
-//                Console.WriteLine(upBDiag);
-//            }
-
-//            Console.WriteLine("UpAboveDiagonal");
-//            foreach (var upADiag in  upAboveDiagonal)  
-//            {
-//                Console.WriteLine(upADiag);
-//            }
-
-//            Console.WriteLine("DownBelowDiagonal");
-//            foreach (var dbDiagonal in downBelowDiagonal)
-//            {
-//                Console.WriteLine(dbDiagonal);
-//            }
-
-//            Console.WriteLine("downAboveDiagonal");
-//            foreach (var downAdiag in downAboveDiagonal)
-//            {
-//                Console.WriteLine(downAdiag);
-//            }
-//#endif
             
             int seatsInView = 0;
            
@@ -355,7 +305,8 @@ namespace AdventOfCode2020CSharp
         public Dictionary<int, int> GetDiagonalsRowCol(int b, int slope, IEnumerable<int> rowRange, int rowBound, int colBound)
         {
             var diagonal = rowRange.Select(y => GenerateDiagonalPoints(y, b, slope))
-                                                    .Where(c => c.row >= 0 && c.row < rowBound && c.col >= 0 && c.col < colBound)
+                                                    .Where(c => c.row >= 0 && c.row < rowBound && c.col >= 0 &&
+                                                                c.col < colBound)
                                                     .ToDictionary(x=>x.row, 
                                                                   x => x.col);
             return diagonal;

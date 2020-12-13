@@ -26,14 +26,8 @@ namespace AdventOfCode2020CSharp
             //2251 is correct for my data
             Console.WriteLine($"full seats: {sol11.CountFullSeats(seats)}");
 
-            //Console.WriteLine(prevCount);
             seats = sol11.GetSeats(input);
-            //int row = 4;
-            //int col = 3;
-            //Console.WriteLine($"Row: {row} Col: {col}");
-            //int i = sol11.GenerateLineOfSite(row, col, seats.Length, seats[0].Length, seats);
-            //Console.WriteLine($"Seats: {i}");
-
+            
             PrintSeats(seats, "seats 0");
             int count2 = 1;
             prevCount = 0;
@@ -41,8 +35,9 @@ namespace AdventOfCode2020CSharp
             while (prevCount != currCount)
             {
                 seats = sol11.FillSeatsPart2(seats);
-                
+#if DEBUG                
                 PrintSeats(seats, $"seats {count2}");
+#endif
                 count2++;
                 prevCount = currCount;
                 currCount = sol11.CountFullSeats(seats);
