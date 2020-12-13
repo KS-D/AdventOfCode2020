@@ -21,7 +21,7 @@ namespace AdventOfCode2020CSharp
         public int WayPointNorth { get; set; } = 1;
         public int WayPointEast { get; set; } = 10;
         public Direction ShipDirection { get; set; } = Direction.East;
-        public int Rotation { get; private set; } // maybe set rotation to an enum
+        public int Rotation { get; private set; } 
         public List<string> Instructions { get; set; }
 
         public DayTwelveSolution()
@@ -79,7 +79,7 @@ namespace AdventOfCode2020CSharp
         }
 
         // part 1
-        public void Parse()
+        public void Navigate()
         {
             foreach (var direction in Instructions)
             {
@@ -129,8 +129,9 @@ namespace AdventOfCode2020CSharp
                 }
             }
         }
+        
         // part 2;
-        public void ParseWithWayPoint()
+        public void NavigateWithWayPoint()
         {
             foreach (var direction in Instructions)
             {
@@ -185,7 +186,6 @@ namespace AdventOfCode2020CSharp
                     moveQuadrants = 1;
                 }
             }
-            // everything is done in terms of right rotations 
             foreach (var quadrants in Enumerable.Range(0, moveQuadrants))
             {
                 Console.WriteLine(quadrants);
