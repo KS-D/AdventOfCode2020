@@ -18,13 +18,13 @@ namespace AdventOfCode2020CSharp
         public List<string> GetInput()
         {
             StreamReader sr = new("day4.txt");
-            List<string> passports = new ();
-            
+            List<string> passports = new();
+
             StringBuilder sb = new("");
             while (!sr.EndOfStream)
             {
                 string temp = sr.ReadLine();
-               
+
                 if (!string.IsNullOrEmpty(temp))
                 {
                     sb.Append(temp + " ");
@@ -35,16 +35,16 @@ namespace AdventOfCode2020CSharp
                     sb.Clear();
                 }
             }
-            
+
             passports.Add(sb.ToString());
-            
+
             return passports;
         }
 
         public int GetValidPassports(List<string> passports, Regex rx)
         {
             int count = 0;
-            
+
             foreach (var s in passports)
             {
                 if (rx.IsMatch(s))
@@ -55,6 +55,5 @@ namespace AdventOfCode2020CSharp
 
             return count;
         }
-       
     }
 }

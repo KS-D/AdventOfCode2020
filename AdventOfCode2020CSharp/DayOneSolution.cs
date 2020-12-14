@@ -25,7 +25,7 @@ namespace AdventOfCode2020CSharp
         public int SolveExpenseReport(List<int> expenses)
         {
             expenses.Sort();
-            int low = 0; 
+            int low = 0;
             int high = expenses.Count - 1;
             while (low < high)
             {
@@ -34,7 +34,7 @@ namespace AdventOfCode2020CSharp
                 {
                     return expenses[low] * expenses[high];
                 }
-                else if(sum > 2020)
+                else if (sum > 2020)
                 {
                     --high;
                 }
@@ -43,9 +43,10 @@ namespace AdventOfCode2020CSharp
                     ++low;
                 }
             }
+
             return -1;
         }
-        
+
         public int SolveExpenseReport2(List<int> expenses)
         {
             for (int start = 0; start < expenses.Count - 3; start++)

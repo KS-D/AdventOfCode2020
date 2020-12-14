@@ -6,19 +6,19 @@ namespace AdventOfCode2020CSharp
 {
     class DayThreeSolution
     {
-        public List<char[]> TestSlope = new List<char[]> 
-        { 
-            new [] { '.','.', '#', '#', '.', '.', '.', '.', '.', '.', '.' }, 
-            new [] { '#', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.' },
-            new [] { '.', '#', '.', '.', '.', '.', '#', '.', '.', '#', '.' },
-            new [] { '.', '.', '#', '.', '#', '.', '.', '.', '#', '.', '#' },
-            new [] { '.', '#', '.', '.', '.', '#', '#', '.', '.', '#', '.' },
-            new [] { '.', '.', '#', '.', '#', '#', '.', '.', '.', '.', '.' },
-            new [] { '.', '#', '.', '#', '.', '#', '.', '.', '.', '.', '#' },
-            new [] { '.', '#', '.', '.', '.', '.', '.', '.', '.', '.', '#' },
-            new [] {'#', '.', '#', '#', '.', '.', '.', '#', '.', '.', '.' },
-            new [] {'#', '.', '.', '.', '#', '#', '.', '.', '.', '.', '#' },
-            new [] {'.', '#', '.', '.', '#', '.', '.', '.', '#', '.', '#' }
+        public List<char[]> TestSlope = new List<char[]>
+        {
+            new[] {'.', '.', '#', '#', '.', '.', '.', '.', '.', '.', '.'},
+            new[] {'#', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.'},
+            new[] {'.', '#', '.', '.', '.', '.', '#', '.', '.', '#', '.'},
+            new[] {'.', '.', '#', '.', '#', '.', '.', '.', '#', '.', '#'},
+            new[] {'.', '#', '.', '.', '.', '#', '#', '.', '.', '#', '.'},
+            new[] {'.', '.', '#', '.', '#', '#', '.', '.', '.', '.', '.'},
+            new[] {'.', '#', '.', '#', '.', '#', '.', '.', '.', '.', '#'},
+            new[] {'.', '#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
+            new[] {'#', '.', '#', '#', '.', '.', '.', '#', '.', '.', '.'},
+            new[] {'#', '.', '.', '.', '#', '#', '.', '.', '.', '.', '#'},
+            new[] {'.', '#', '.', '.', '#', '.', '.', '.', '#', '.', '#'}
         };
 
         public List<char[]> GetInput()
@@ -41,26 +41,26 @@ namespace AdventOfCode2020CSharp
         public int SolveSlopeProblem(List<char[]> slope, int downChecks = 1, int rightChecks = 3)
         {
             int count = 0;
-            
+
             //PrintLine(slope[0]);
 
-            for (int i = downChecks, j = rightChecks; i < slope.Count; i+=downChecks, j+=rightChecks)
+            for (int i = downChecks, j = rightChecks; i < slope.Count; i += downChecks, j += rightChecks)
             {
                 if (j > slope[i].Length - 1)
                 {
                     j -= slope[i].Length;
                 }
-                
+
                 if (slope[i][j] == '#')
                 {
-                   //slope[i][j] = 'X';
-                   ++count;
+                    //slope[i][j] = 'X';
+                    ++count;
                 }
                 //else
                 //{
                 //    slope[i][j] = 'O';
                 //}
-                
+
                 //PrintLine(slope[i]);
             }
 
@@ -71,8 +71,9 @@ namespace AdventOfCode2020CSharp
         {
             foreach (var c in line)
             {
-               Console.Write(c); 
+                Console.Write(c);
             }
+
             Console.WriteLine();
         }
     }

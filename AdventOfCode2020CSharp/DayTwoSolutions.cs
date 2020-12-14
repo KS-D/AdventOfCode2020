@@ -12,8 +12,8 @@ namespace AdventOfCode2020CSharp
         public char Required { get; }
         public string Password { get; }
 
-        public PasswordRequirement(int lower, int higher, char required, string password) 
-                => (Lower, Higher, Required, Password) = (lower, higher, required, password);
+        public PasswordRequirement(int lower, int higher, char required, string password)
+            => (Lower, Higher, Required, Password) = (lower, higher, required, password);
     }
 
     struct DayTwoSolutions
@@ -26,7 +26,7 @@ namespace AdventOfCode2020CSharp
             var passwordDefinitions = new List<PasswordRequirement>();
 
             while (!sr.EndOfStream)
-            { 
+            {
                 string passwordReq = sr.ReadLine();
                 if (passwordReq is not null)
                 {
@@ -54,7 +54,7 @@ namespace AdventOfCode2020CSharp
         public void SolveValidPassword(List<PasswordRequirement> requirements)
         {
             int count = 0;
-            
+
             foreach (var req in requirements)
             {
                 int requiredOccurance = req.Password.Count(x => x == req.Required);
@@ -76,7 +76,8 @@ namespace AdventOfCode2020CSharp
                 bool charInLowerPosition = req.Password[req.Lower - 1] == req.Required;
                 bool charInHigherPosition = req.Password[req.Higher - 1] == req.Required;
 
-                if (charInLowerPosition && charInHigherPosition == false || charInLowerPosition == false && charInHigherPosition)
+                if (charInLowerPosition && charInHigherPosition == false ||
+                    charInLowerPosition == false && charInHigherPosition)
                 {
                     ++count;
                 }
@@ -85,5 +86,4 @@ namespace AdventOfCode2020CSharp
             Console.WriteLine($"Valid Passwords: {count}");
         }
     }
-
 }

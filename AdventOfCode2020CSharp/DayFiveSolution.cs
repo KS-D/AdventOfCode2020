@@ -19,10 +19,10 @@ namespace AdventOfCode2020CSharp
                     seatRules.Add(seats);
                 }
             }
-            
+
             return seatRules;
         }
-        
+
         public (int row, int col) SolveSeatProblem(string seatRule)
         {
             int frontEdge = 0;
@@ -37,12 +37,12 @@ namespace AdventOfCode2020CSharp
                 var midDist = 0;
                 if (rule == 'F')
                 {
-                    midDist = (backEdge - frontEdge)/2;
+                    midDist = (backEdge - frontEdge) / 2;
                     backEdge -= midDist + 1;
-                } 
+                }
                 else if (rule == 'B')
                 {
-                    midDist = (backEdge - frontEdge)/2;
+                    midDist = (backEdge - frontEdge) / 2;
                     ++midDist;
                     frontEdge += midDist;
                 }
@@ -91,6 +91,7 @@ namespace AdventOfCode2020CSharp
                     highest = temp;
                 }
             }
+
             return highest;
         }
 
@@ -99,14 +100,14 @@ namespace AdventOfCode2020CSharp
         {
             List<int> ids = new();
             List<string> seatRule = GetInput();
-            
+
             foreach (string seat in seatRule)
             {
                 (int row, int column) = SolveSeatProblem(seat);
                 int id = CalculateSeatId(row, column);
                 ids.Add(id);
             }
-            
+
             ids.Sort();
             return ids;
         }
@@ -121,7 +122,7 @@ namespace AdventOfCode2020CSharp
                     return ids[j] - 1;
                 }
             }
-            
+
             return -1;
         }
     }

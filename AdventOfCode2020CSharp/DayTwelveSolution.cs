@@ -7,21 +7,21 @@ using Microsoft.VisualBasic;
 namespace AdventOfCode2020CSharp
 {
     class DayTwelveSolution
-   {
-       internal enum Direction
-       {
-           East = 0,
-           North = 90,
-           West = 180,
-           South = 270
-       }
-       
+    {
+        internal enum Direction
+        {
+            East = 0,
+            North = 90,
+            West = 180,
+            South = 270
+        }
+
         public int North { get; set; }
         public int East { get; set; }
         public int WayPointNorth { get; set; } = 1;
         public int WayPointEast { get; set; } = 10;
         public Direction ShipDirection { get; set; } = Direction.East;
-        public int Rotation { get; private set; } 
+        public int Rotation { get; private set; }
         public List<string> Instructions { get; set; }
 
         public DayTwelveSolution()
@@ -31,7 +31,7 @@ namespace AdventOfCode2020CSharp
             Rotation = 0;
             Instructions = new();
         }
-        
+
         public void GetDirections(string inputFile)
         {
             using StreamReader sr = new(inputFile);
@@ -68,7 +68,7 @@ namespace AdventOfCode2020CSharp
                 if (temp >= 360)
                 {
                     Rotation = temp - 360;
-                } 
+                }
                 else
                 {
                     Rotation = temp;
@@ -88,7 +88,7 @@ namespace AdventOfCode2020CSharp
                 if (direction.Contains("N"))
                 {
                     North += value;
-                }    
+                }
                 else if (direction.Contains("S"))
                 {
                     North -= value;
@@ -103,11 +103,11 @@ namespace AdventOfCode2020CSharp
                 }
                 else if (direction.Contains("L"))
                 {
-                    Rotate("L", value); 
+                    Rotate("L", value);
                 }
                 else if (direction.Contains("R"))
                 {
-                    Rotate("R", value); 
+                    Rotate("R", value);
                 }
                 else if (direction.Contains("F"))
                 {
@@ -123,13 +123,13 @@ namespace AdventOfCode2020CSharp
                             North += value;
                             break;
                         case Direction.South:
-                            North -= value; 
+                            North -= value;
                             break;
                     }
                 }
             }
         }
-        
+
         // part 2;
         public void NavigateWithWayPoint()
         {
@@ -140,7 +140,7 @@ namespace AdventOfCode2020CSharp
                 if (direction.Contains("N"))
                 {
                     WayPointNorth += value;
-                }    
+                }
                 else if (direction.Contains("S"))
                 {
                     WayPointNorth -= value;
@@ -155,15 +155,15 @@ namespace AdventOfCode2020CSharp
                 }
                 else if (direction.Contains("L"))
                 {
-                    RotateWayPoint("L", value); 
+                    RotateWayPoint("L", value);
                 }
                 else if (direction.Contains("R"))
                 {
-                    RotateWayPoint("R", value); 
+                    RotateWayPoint("R", value);
                 }
                 else if (direction.Contains("F"))
                 {
-                    East += value * WayPointEast; 
+                    East += value * WayPointEast;
                     North += value * WayPointNorth;
                 }
             }
@@ -177,7 +177,7 @@ namespace AdventOfCode2020CSharp
             {
                 // 1 and 3 are different quadrants while 4 and 2 are 180 and 360 so they will 
                 // produce the same results
-                if (moveQuadrants == 1)                 
+                if (moveQuadrants == 1)
                 {
                     moveQuadrants = 3;
                 }
@@ -186,6 +186,7 @@ namespace AdventOfCode2020CSharp
                     moveQuadrants = 1;
                 }
             }
+
             foreach (var quadrants in Enumerable.Range(0, moveQuadrants))
             {
                 Console.WriteLine(quadrants);

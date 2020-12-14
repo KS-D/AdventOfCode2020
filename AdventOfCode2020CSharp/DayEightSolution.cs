@@ -23,6 +23,7 @@ namespace AdventOfCode2020CSharp
                     baggageRules.Add(rule);
                 }
             }
+
             return baggageRules;
         }
 
@@ -30,16 +31,16 @@ namespace AdventOfCode2020CSharp
         {
             Regex acc = new Regex(@"acc");
             Regex jump = new Regex(@"jmp");
-            
+
             HashSet<int> indices = new();
             Stack<int> traversedIndexes = new();
-           
+
             int operation = 0;
             bool newIndex = true;
             int accumulator = 0;
             indices.Add(operation);
             int operationOffset = 1;
-            
+
             while (operation < assembly.Count && newIndex)
             {
                 operationOffset = 1;
@@ -47,7 +48,7 @@ namespace AdventOfCode2020CSharp
                 if (acc.IsMatch(assembly[operation]))
                 {
                     string change = acc.Split(assembly[operation]).Single(x => x != "");
-                    
+
                     Console.WriteLine(change);
                     int i = int.Parse(change);
                     accumulator += i;
@@ -58,8 +59,8 @@ namespace AdventOfCode2020CSharp
                     Console.WriteLine(jumpOffset);
                     int i = int.Parse(jumpOffset);
                     operationOffset = i;
+                }
 
-                } 
                 // do nothing for nop
                 operation += operationOffset;
                 newIndex = indices.Add(operation);
@@ -90,11 +91,11 @@ namespace AdventOfCode2020CSharp
                 {
                     temp = jmp.Replace(temp, "nop");
                 }
-                
+
                 if (!acc.IsMatch(temp))
                 {
                     assembly[index] = temp;
-                    (int _ , Stack<int> updatedIndex) = RunAssembly(assembly);
+                    (int _, Stack<int> updatedIndex) = RunAssembly(assembly);
                     if (updatedIndex.Pop() == assembly.Count - 1)
                     {
                         success = true;

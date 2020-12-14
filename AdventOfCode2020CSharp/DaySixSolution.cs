@@ -37,7 +37,7 @@ namespace AdventOfCode2020CSharp
         public int GetUniqueYeses(string questions)
         {
             var unique = questions.Where(letter => letter != ' ' && letter != '\n')
-                                                .Distinct();
+                .Distinct();
             return unique.Count();
         }
 
@@ -45,19 +45,19 @@ namespace AdventOfCode2020CSharp
         {
             int groupMembers = question.Trim().Split(" ").Length;
             var duplicate = question.GroupBy(l => l)
-                                                         .Where(g => g.Count() == groupMembers && g.Key != ' ')
-                                                         .Select(l => l);
+                .Where(g => g.Count() == groupMembers && g.Key != ' ')
+                .Select(l => l);
             return duplicate.Count();
         }
-        
+
         public int SolveTotalQuestions(List<string> questions)
         {
             int sum = 0;
             foreach (string question in questions)
             {
                 sum += GetUniqueYeses(question);
-            } 
-            
+            }
+
             return sum;
         }
 
@@ -67,8 +67,8 @@ namespace AdventOfCode2020CSharp
             foreach (string question in questions)
             {
                 sum += GetDuplicateYeses(question);
-            } 
-           
+            }
+
             return sum;
         }
     }

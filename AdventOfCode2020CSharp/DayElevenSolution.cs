@@ -20,6 +20,7 @@ namespace AdventOfCode2020CSharp
                     adapters.Add(rule);
                 }
             }
+
             return adapters;
         }
 
@@ -28,7 +29,7 @@ namespace AdventOfCode2020CSharp
         public char[][] FillSeats(char[][] seats)
         {
             char[][] newSeats = CloneChars(seats);
-            
+
             for (int i = 0; i < seats.Length; i++)
             {
                 for (int j = 0; j < seats[0].Length; j++)
@@ -49,8 +50,8 @@ namespace AdventOfCode2020CSharp
             return newSeats;
         }
 
-        public int CountFullSeats(char[][] seats) =>  seats.SelectMany(s => s).ToArray().Count(c => c == '#');
-        
+        public int CountFullSeats(char[][] seats) => seats.SelectMany(s => s).ToArray().Count(c => c == '#');
+
         private char[][] CloneChars(char[][] seats)
         {
             char[][] temp = new char[seats.Length][];
@@ -80,13 +81,13 @@ namespace AdventOfCode2020CSharp
             bool canGoDown = downBound < seats.Length;
             bool canGoLeft = leftBound >= 0;
             bool canGoRight = rightBound < seats[0].Length;
-           
+
             if (canGoUp && seats[upBound][col] == seatState)
             {
                 seatsFilled++;
             }
 
-            if (canGoDown && seats[downBound][col] == seatState )
+            if (canGoDown && seats[downBound][col] == seatState)
             {
                 seatsFilled++;
             }
@@ -95,7 +96,7 @@ namespace AdventOfCode2020CSharp
             {
                 seatsFilled++;
             }
-            
+
             if (canGoRight && seats[row][rightBound] == seatState)
             {
                 seatsFilled++;
@@ -120,10 +121,10 @@ namespace AdventOfCode2020CSharp
             {
                 seatsFilled++;
             }
-             
+
             return seatsFilled;
         }
-        
+
         // Part 2
         /* need to check line of sight for each seat. calculate all
            the indexes in line of sight for current position and then
@@ -132,10 +133,10 @@ namespace AdventOfCode2020CSharp
         public int GenerateLineOfSite(int row, int col, int rowBound, int colBound, char[][] seats)
         {
             var rowRange = Enumerable.Range(0, rowBound).Where(x => x != row).ToList();
-            var aboveRow= rowRange.Where(r => r < row).Reverse().ToList();
+            var aboveRow = rowRange.Where(r => r < row).Reverse().ToList();
             var belowRow = rowRange.Where(r => r > row).ToList();
 
-           
+
             var leftColRange = Enumerable.Range(0, col);
             var rightColRange = Enumerable.Range(col + 1, colBound - col - 1);
             int slope1 = 1;
@@ -147,9 +148,9 @@ namespace AdventOfCode2020CSharp
             var downBelowDiagonal = GetDiagonalsRowCol(b2, slope2, belowRow, rowBound, colBound);
             var downAboveDiagonal = GetDiagonalsRowCol(b2, slope2, aboveRow, rowBound, colBound);
 
-            
+
             int seatsInView = 0;
-           
+
             foreach (var r in belowRow)
             {
                 var pos = seats[r][col];
@@ -179,7 +180,7 @@ namespace AdventOfCode2020CSharp
                     break;
                 }
             }
-            
+
             foreach (var lCol in leftColRange.Reverse())
             {
                 var pos = seats[row][lCol];
@@ -188,7 +189,7 @@ namespace AdventOfCode2020CSharp
                     seatsInView++;
                     break;
                 }
-                
+
                 if (pos == 'L')
                 {
                     break;
@@ -218,13 +219,13 @@ namespace AdventOfCode2020CSharp
                     seatsInView++;
                     break;
                 }
-                
+
                 if (pos == 'L')
                 {
                     break;
                 }
             }
-            
+
             foreach (var diag in upAboveDiagonal)
             {
                 var pos = seats[diag.Key][diag.Value];
@@ -233,13 +234,13 @@ namespace AdventOfCode2020CSharp
                     seatsInView++;
                     break;
                 }
-                
+
                 if (pos == 'L')
                 {
                     break;
                 }
             }
-            
+
             foreach (var diag in downAboveDiagonal)
             {
                 var pos = seats[diag.Key][diag.Value];
@@ -248,13 +249,13 @@ namespace AdventOfCode2020CSharp
                     seatsInView++;
                     break;
                 }
-                
+
                 if (pos == 'L')
                 {
                     break;
                 }
             }
-            
+
             foreach (var diag in downBelowDiagonal)
             {
                 var pos = seats[diag.Key][diag.Value];
@@ -263,33 +264,32 @@ namespace AdventOfCode2020CSharp
                     seatsInView++;
                     break;
                 }
-                
+
                 if (pos == 'L')
                 {
                     break;
                 }
             }
- 
-            return seatsInView;
 
+            return seatsInView;
         }
-        
+
         public char[][] FillSeatsPart2(char[][] seats)
         {
             char[][] newSeats = CloneChars(seats);
-            
+
             for (int i = 0; i < seats.Length; i++)
             {
                 for (int j = 0; j < seats[0].Length; j++)
                 {
                     char spot = seats[i][j];
-                    if (spot == 'L' && 
+                    if (spot == 'L' &&
                         GenerateLineOfSite(i, j, seats.Length, seats[0].Length, seats) == 0)
                     {
                         newSeats[i][j] = '#';
                     }
 
-                    if (spot == '#' && 
+                    if (spot == '#' &&
                         GenerateLineOfSite(i, j, seats.Length, seats[0].Length, seats) >= 5)
                     {
                         newSeats[i][j] = 'L';
@@ -300,27 +300,30 @@ namespace AdventOfCode2020CSharp
             return newSeats;
         }
 
- 
+
         //Does not return negative numbers
-        public Dictionary<int, int> GetDiagonalsRowCol(int b, int slope, IEnumerable<int> rowRange, int rowBound, int colBound)
+        public Dictionary<int, int> GetDiagonalsRowCol(int b, int slope, IEnumerable<int> rowRange, int rowBound,
+            int colBound)
         {
             var diagonal = rowRange.Select(y => GenerateDiagonalPoints(y, b, slope))
-                                                    .Where(c => c.row >= 0 && c.row < rowBound && c.col >= 0 &&
-                                                                c.col < colBound)
-                                                    .ToDictionary(x=>x.row, 
-                                                                  x => x.col);
+                .Where(c => c.row >= 0 && c.row < rowBound && c.col >= 0 &&
+                            c.col < colBound)
+                .ToDictionary(x => x.row,
+                    x => x.col);
             return diagonal;
         }
+
         public int YIntersect(int x, int y, int slope)
         {
             int b = y - (x * slope);
             return b;
         }
+
         // must subract 1 to adjust for the zero offset
         public (int row, int col) GenerateDiagonalPoints(int y, int b, int slope)
         {
-            int x = (y -b) * slope;
+            int x = (y - b) * slope;
             return (y, x); //adjust for 0 offset
-        } 
+        }
     }
 }

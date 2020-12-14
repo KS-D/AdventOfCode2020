@@ -21,6 +21,7 @@ namespace AdventOfCode2020CSharp
                     baggageRules.Add(rule);
                 }
             }
+
             return baggageRules;
         }
 
@@ -29,24 +30,24 @@ namespace AdventOfCode2020CSharp
             Dictionary<string, Dictionary<string, int>> bagHolds = new();
             string[] splitRules = {"contain", ","};
             Regex r = new(@"[0-9]+");
-            
+
             foreach (var s in bagRules)
             {
                 var noBag = s.Trim().Replace("bags", "")
-                                          .Replace("bag","")
-                                          .Replace(".", "");
-                
+                    .Replace("bag", "")
+                    .Replace(".", "");
+
                 var parsed = noBag.Split(splitRules, StringSplitOptions.None)
-                                          .Select(bag => bag.Trim()) 
-                                          .ToArray();
+                    .Select(bag => bag.Trim())
+                    .ToArray();
                 string key = "";
                 foreach (var t in parsed)
                 {
                     if (t.Contains("no other"))
                     {
                         // don't add anything
-                    } 
-                    else if (!r.IsMatch(t))                     
+                    }
+                    else if (!r.IsMatch(t))
                     {
                         key = t;
                         bagHolds.Add(key, new());
@@ -61,6 +62,7 @@ namespace AdventOfCode2020CSharp
                     }
                 }
             }
+
             return bagHolds;
         }
 
@@ -73,15 +75,17 @@ namespace AdventOfCode2020CSharp
                 {
                     if (!heldBy.ContainsKey(heldBag.Key))
                     {
-                        heldBy.Add(heldBag.Key,new());
+                        heldBy.Add(heldBag.Key, new());
                     }
+
                     heldBy[heldBag.Key].Add(bag.Key);
                 }
             }
+
             return heldBy;
         }
 
-        public HashSet<string> PathsToColor(string bagColor,Dictionary<string, List<string>> bagHeldBy)
+        public HashSet<string> PathsToColor(string bagColor, Dictionary<string, List<string>> bagHeldBy)
         {
             if (bagHeldBy.ContainsKey(bagColor))
             {
@@ -90,8 +94,10 @@ namespace AdventOfCode2020CSharp
                 {
                     colors.UnionWith(PathsToColor(bag, bagHeldBy));
                 }
+
                 return colors;
             }
+
             return new();
         }
 
@@ -108,7 +114,8 @@ namespace AdventOfCode2020CSharp
 
                 return sum;
             }
+
             return 0;
         }
-    } 
+    }
 }
