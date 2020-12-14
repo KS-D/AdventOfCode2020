@@ -166,7 +166,6 @@ namespace AdventOfCode2020CSharp
 
         public long FindTimeStampCRTCon()
         { 
-            //long N = BusOffset.Keys.Aggregate((a, b) => a * b);
             long N = 1;
             foreach(var i in BusOffset.Keys)
             {
@@ -179,15 +178,13 @@ namespace AdventOfCode2020CSharp
             for (int i = 0; i < buses.Length; i++)
             {
                 nDivNsub = N / buses[i];
-                sum += BusOffset[buses[i]] * ModInverse(nDivNsub, buses[i]) * nDivNsub;
+                sum += BusOffset[buses[i]] * ModMultInverse(nDivNsub, buses[i]) * nDivNsub;
             }
-            Console.WriteLine($"N: {N}");
-            Console.WriteLine($"Sum: {sum}");
             
             return sum % N;
         }
 
-        public long ModInverse(long a, long m)
+        public long ModMultInverse(long a, long m)
         {
             long m0 = m;
             long y = 0, x = 1;
