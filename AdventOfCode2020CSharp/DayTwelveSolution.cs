@@ -83,7 +83,7 @@ namespace AdventOfCode2020CSharp
         {
             foreach (var direction in Instructions)
             {
-                int value = int.Parse(direction.Substring(1));
+                int value = int.Parse(direction[1..]);
 
                 if (direction.Contains("N"))
                 {
@@ -135,7 +135,7 @@ namespace AdventOfCode2020CSharp
         {
             foreach (var direction in Instructions)
             {
-                int value = int.Parse(direction.Substring(1));
+                int value = int.Parse(direction[1..]);
 
                 if (direction.Contains("N"))
                 {
