@@ -22,16 +22,18 @@ namespace AdventOfCode2020CSharp
             var lastNumber = sol15.NumberGame("0,3,6", 30000000);
             watch.Stop();
             Console.WriteLine(lastNumber);
-            Console.WriteLine($"Time elapsed: {watch.Elapsed.Milliseconds} ms");
+            Console.WriteLine($"Time elapsed: {watch.Elapsed.TotalSeconds} s");
  
             watch.Reset();
             watch.Start();
             lastNumber = sol15.NumberGame("1,20,11,6,12,0", 30000000);
+
             watch.Stop();
             // part 2 answer
+            // Correct answer is 10652
             Console.WriteLine(lastNumber);
             
-            Console.WriteLine($"Time elapsed: {watch.Elapsed.Milliseconds} ms");
+            Console.WriteLine($"Time elapsed: {watch.Elapsed.TotalSeconds} s");
            
         }
     }
