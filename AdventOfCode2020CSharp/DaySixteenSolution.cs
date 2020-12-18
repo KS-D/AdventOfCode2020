@@ -97,6 +97,7 @@ namespace AdventOfCode2020CSharp
         public int ErrorRate(HashSet<int> range)
         {
             List<int> errors = new();
+            List<Ticket> toRemove = new();
             foreach(var ticket in OtherTickets)
             {
                 foreach (var field in ticket.Fields)
@@ -104,11 +105,121 @@ namespace AdventOfCode2020CSharp
                     if (!range.Contains(field))
                     {
                         errors.Add(field);
+                        toRemove.Add(ticket); // remove invalid tickets
+                    }
+                }
+            }
+            // use linq to remove invalid tickets
+            OtherTickets = OtherTickets.Where(x => !toRemove.Contains(x))
+                                        .ToList();
+
+            if (errors.Count > 1)
+            {
+                return errors.Aggregate((x,y) => x + y);
+            }
+            else if (errors.Count == 1)
+            {
+                return errors[0];
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
+
+        private Dictionary<string, List<int>> GenerateKeysAndPotentialIndices()
+        {
+            int rulesLength = Rules.Count;
+            Dictionary<string, List<int>> ruleAndIndices = new();
+
+            foreach (var rule in Rules.Keys)
+            {
+                ruleAndIndices.Add(rule, Enumerable.Range(0, rulesLength).ToList());
+            }
+            return ruleAndIndices;
+        }
+
+        public Dictionary<string, List<int>> FindValidFieldPosition()
+        {
+            Dictionary<string, List<int>> rulesAndIndices = 
+                                        GenerateKeysAndPotentialIndices();
+
+            foreach (var ticket in OtherTickets)
+            {
+                for (int i = 0; i < ticket.Fields.Count; i++)
+                {
+                    foreach (var rule in rulesAndIndices.Keys)
+                    {
+                        if (!CheckBounds(rule, ticket.Fields[i]))
+                        {
+                            rulesAndIndices[rule].Remove(i);
+                        }
                     }
                 }
             }
 
-            return errors.Aggregate((x,y) => x + y);
-        } 
+            return rulesAndIndices;
+        }
+
+        public Dictionary<string, List<int>> Solve(Dictionary<string, List<int>> trimmedIndices)
+        {
+            foreach (var key in trimmedIndices.Keys)
+            {
+                if (trimmedIndices[key].Count == 1)
+                {
+                    int position = trimmedIndices[key][0];
+                    foreach (var pair in trimmedIndices)
+                    {
+                        if (pair.Value.Count > 1)
+                        {
+                            pair.Value.Remove(position);
+                        }
+                    }
+                } 
+            }
+            
+            return trimmedIndices;
+        }
+
+        public bool ContainsDuplicatePositions(Dictionary<string, List<int>> fieldAndPos)
+        {
+            foreach (var positions in fieldAndPos.Values)
+            {
+                if (positions.Count > 1)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckBounds(string field, int position)
+        {
+            int[] bounds = Rules[field];
+
+            if (position >= bounds[0] && position <= bounds[1] ||
+                position >=  bounds[2]  && position <= bounds[3])
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public long GetDepartureProduct(Dictionary<string, List<int>> fieldAndPos)
+        {
+            long product = 1;
+            foreach (var fieldPosition in fieldAndPos)
+            {
+                if (fieldPosition.Key.Contains("departure"))
+                {
+                    product *= MyTicket.Fields[fieldPosition.Value[0]];
+                }
+                    
+            }
+            return product;
+        }
     }
 }
