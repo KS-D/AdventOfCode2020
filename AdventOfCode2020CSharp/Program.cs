@@ -7,29 +7,47 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            DaySixteenSolution sol16 = new();
-            //sol16.Parse("day16_test.txt");
-            //sol16.Parse("day16_part2test.txt");
-            sol16.Parse("day16.txt");
-            var validRange = sol16.FindRange();
-            foreach (var i in validRange)
+            DaySeventeenSolution sol17 = new();
+            
+            sol17.Parse("day17_test.txt");
+            //sol17.Parse("day17.txt");
+            
+            sol17.PrintCubes(sol17.CubeLayers);
+
+            for (int i = 0; i < 6; i++)
             {
-                Console.WriteLine(i);
+                Console.WriteLine($"Boot: {i+1}");
+                sol17.UpdateCubeGrid3D();
+                sol17.PrintCubes(sol17.CubeLayers);
             }
-            // 25961 is the correct answer
-            Console.WriteLine(sol16.ErrorRate(validRange));
+            //part 1
+            // 362 is the proper answer for my data
+            Console.WriteLine($"Count Active: {sol17.CountActive3D(sol17.CubeLayers)}");
+            sol17.CubeLayers = null; // get out of here old data
+            sol17.CubeLayers = new(); // get out of here old data
+            // part 2
+            sol17.Parse("day17_test.txt");
+            //sol17.Parse("day17.txt");
             
-            // first move discard invalid tickets, update ErrorRate to remove incorrect tickets
-            
-            var positions = sol16.FindValidFieldPosition();
-            positions = sol16.Solve(positions);
-            while (sol16.ContainsDuplicatePositions(positions))
+            sol17.HyperCube.Add(sol17.CubeLayers);
+          
+            // todo: figure out why is works for part 1 but not part 2
+            for (int i = 0; i < 6; i++)
             {
-                positions = sol16.Solve(positions);
+                Console.WriteLine($"Boot: {i+1}");
+                sol17.UpdateCubeGrid4D(); 
+                sol17.PrintHyperCube();
             }
 
-            Console.WriteLine(sol16.GetDepartureProduct(positions));
+            long sumActive4D = 0;
+            foreach (var cube in sol17.HyperCube)
+            {
+                sumActive4D += sol17.CountActive3D(cube);
+            }
 
+            Console.WriteLine($"part 2: {sumActive4D}");
+            
+            Console.WriteLine("end");
         }
     }
 }
