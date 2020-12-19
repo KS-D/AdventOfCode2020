@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace AdventOfCode2020CSharp
 {
@@ -7,49 +9,55 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            DaySeventeenSolution sol17 = new();
-            
-            sol17.Parse("day17_test.txt");
-            //sol17.Parse("day17.txt");
-            
-            sol17.PrintCubes(sol17.CubeLayers);
+            DayEighteenSolution sol18 = new();
 
-            for (int i = 0; i < 6; i++)
+            long value = sol18.SolveEquations(new List<string> {"1", "+", "2", "*", "3", "+", "4", "*", "5", "+", "6"});
+            Console.WriteLine(value);
+            var postFix = sol18.GetPostFix(new List<string> {"1", "+", "2", "*", "3", "+", "4", "*", "5", "+", "6"});
+            foreach (var p in postFix)
             {
-                Console.WriteLine($"Boot: {i+1}");
-                sol17.UpdateCubeGrid3D();
-                sol17.PrintCubes(sol17.CubeLayers);
+                Console.Write(p + " ");
             }
-            //part 1
-            // 362 is the proper answer for my data
-            Console.WriteLine($"Count Active: {sol17.CountActive3D(sol17.CubeLayers)}");
-            sol17.CubeLayers = null; // get out of here old data
-            sol17.CubeLayers = new(); // get out of here old data
+            Console.WriteLine();
+            
+            var answer = sol18.EvaluatePostfix(postFix);
+            Console.WriteLine($"{answer}");
+            
+            postFix = sol18.GetPostFix(new List<string> {"1", "+", "(", "2", "*", "3", ")","+", "(","4", "*", "(","5", "+", "6",")",")"});
+            answer = sol18.EvaluatePostfix(postFix);
+            
+            Console.WriteLine($"{answer}");
+
+            List<long> results = new();
+            sol18.Parse("day18.txt");
+
+            foreach (var equation in sol18.Input)
+            {
+                var postfix = sol18.GetPostFix(equation);
+                results.Add(sol18.EvaluatePostfix(postfix));
+            }
+
+            foreach (var result in results)
+            {
+                Console.WriteLine(result);
+            }
+
+            long partOneAnswer = results.Aggregate((x, y) => x+y);
+            // 23507031841020 is the right answer for my data
+            Console.WriteLine($"part 1: {partOneAnswer}");
+
             // part 2
-            //sol17.Parse("day17_test.txt");
-            sol17.Parse("day17.txt");
-            
-            sol17.HyperCube.Add(sol17.CubeLayers);
-          
-            for (int i = 0; i < 6; i++)
+
+            List<long> result2 = new();
+            foreach (var equation in sol18.Input)
             {
-                Console.WriteLine($"Boot: {i+1}");
-                sol17.UpdateCubeGrid4D(); 
-                sol17.PrintHyperCube();
+                var postfix = sol18.GetPostFix(equation, true);
+                result2.Add(sol18.EvaluatePostfix(postfix));
             }
 
-            
+            long partTwoAnswer = result2.Aggregate((x, y) => x+y);
 
-            long sumActive4D = 0;
-            foreach (var cube in sol17.HyperCube)
-            {
-                sumActive4D += sol17.CountActive3D(cube);
-            }
-            
-            // answer for part 2 for my data: 1980 
-            Console.WriteLine($"part 2: {sumActive4D}");
-            
-            Console.WriteLine("end");
+            Console.WriteLine($"part 2: {partTwoAnswer}");
         }
     }
 }
