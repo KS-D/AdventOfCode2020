@@ -119,12 +119,12 @@ namespace AdventOfCode2020CSharp
 
             foreach (var cube in HyperCube)
             {
-                List<CubeGrid> Cubes3D = new(z);
+                List<CubeGrid> cubes3D = new(z);
                 foreach (var square in cube)
                 {
-                    Cubes3D.Add(square.Clone());
+                    cubes3D.Add(square.Clone());
                 }
-                hyperClone.Add(Cubes3D);
+                hyperClone.Add(cubes3D);
             }
 
             return hyperClone;
@@ -179,7 +179,7 @@ namespace AdventOfCode2020CSharp
                 {
                     for (int p = 0; p < CubeLayers[0].X; p++)
                     {
-                        CheckEachCube3D(p, j, i, cubeStackClone);                        
+                        CheckEachCube3D(p, j, i, cubeStackClone, CubeLayers);                        
                     }
                 }
             }
@@ -187,26 +187,26 @@ namespace AdventOfCode2020CSharp
             CubeLayers = cubeStackClone;
         }
 
-        public int CheckEachCube3D(int x, int y, int z, List<CubeGrid> cubeGrids)
+        public int CheckEachCube3D(int x, int y, int z, List<CubeGrid> cubeGridClone, List<CubeGrid> cubeLayers)
         {
-            bool active = cubeGrids[z][y][x] == '#';
-            HashSet<(int x, int y, int z)> neighbors = GenerateNeighbors3D(x,y,z);
+            bool active = cubeGridClone[z][y][x] == '#';
+            HashSet<(int x, int y, int z)> neighbors = GenerateNeighbors3D(x,y,z, cubeGridClone);
 
             int activeNeighborCount = 0;
             foreach (var neighbor in neighbors)
             {
-                if (CubeLayers[neighbor.z][neighbor.y][neighbor.x] == '#')
+                if (cubeLayers[neighbor.z][neighbor.y][neighbor.x] == '#')
                     activeNeighborCount++;
             }
 
             if (active && activeNeighborCount < 2
                         || activeNeighborCount > 3)
             {
-                cubeGrids[z][y][x] = '.';
+                cubeGridClone[z][y][x] = '.';
             }
             else if (!active && activeNeighborCount == 3)
             {
-                cubeGrids[z][y][x] = '#';
+                cubeGridClone[z][y][x] = '#';
             }
 
             return activeNeighborCount;
@@ -226,7 +226,10 @@ namespace AdventOfCode2020CSharp
 
         // how to add w: foreach tuple add, create one that has w, w-1, w+1, then you need
         // the base case where x,y,z, w+|-1 to make the total (3 * 26) + 2 = 80 
-        private HashSet<(int x, int y, int z)> GenerateNeighbors3D(int x, int y, int z)
+        private HashSet<(int x, int y, int z)> GenerateNeighbors3D(int x, 
+                                                                   int y, 
+                                                                   int z,
+                                                                   List<CubeGrid> cg)
         {
             var xyz = new HashSet<(int x, int y, int z)>
             {   // all 26 combinations 
@@ -261,11 +264,11 @@ namespace AdventOfCode2020CSharp
             return xyz
                 .Where(point => 
                         point.x >= 0 && 
-                        point.x < CubeLayers[0].X &&
+                        point.x < cg[0].X &&
                         point.y >=0 && 
-                        point.y < CubeLayers[0].Y && 
+                        point.y < cg[0].Y && 
                         point.z >= 0 && 
-                        point.z < CubeLayers.Count
+                        point.z < cg.Count
                     )
                     .ToHashSet();
         }
@@ -279,7 +282,7 @@ namespace AdventOfCode2020CSharp
             HashSet<(int x, int y, int z, int w)> neighbors4D 
                                 = new HashSet<(int x, int y, int z, int w)>();
             int wBound = HyperCube.Count;
-            var neighbors3D = GenerateNeighbors3D(x, y, z);
+            var neighbors3D = GenerateNeighbors3D(x, y, z, HyperCube[0]);
             foreach (var neighbors in neighbors3D)
             {
                 neighbors4D.Add((neighbors.x,neighbors.y, neighbors.z, w));
@@ -323,7 +326,6 @@ namespace AdventOfCode2020CSharp
                     {
                         for (int p = 0; p < x; p++)
                         {
-                            //CheckEachCube4D2(p, j, i, w, hyperCubeClone);
                             CheckEachCube4D(p, j, i, w, hyperCubeClone);
                         }
                     }
@@ -333,7 +335,7 @@ namespace AdventOfCode2020CSharp
             HyperCube = hyperCubeClone;
         }
 
-        private void CheckEachCube4D2(int x, int y, int z, int w, List<List<CubeGrid>> hyperCubeClone)
+        private void CheckEachCube4D(int x, int y, int z, int w, List<List<CubeGrid>> hyperCubeClone)
         {
             bool active = hyperCubeClone[w][z][y][x] == '#';
             HashSet<(int x, int y, int z, int w)> neighbors = GenerateNeighbors4D(x,y,z,w);
@@ -357,10 +359,10 @@ namespace AdventOfCode2020CSharp
 
         }
         
-        private void CheckEachCube4D(int x, int y, int z, int w, List<List<CubeGrid>> hyperCubeClone)
+        private void CheckEachCube4DReuse(int x, int y, int z, int w, List<List<CubeGrid>> hyperCubeClone)
         {
             bool isActive = hyperCubeClone[w][z][y][x] == '#';
-            char previousState = ' ';
+            char previousState;
             int activeCubes = 0;
             if (w + 1 < hyperCubeClone.Count)
             {
@@ -369,7 +371,7 @@ namespace AdventOfCode2020CSharp
                 {
                     activeCubes++;
                 }
-                activeCubes += CheckEachCube3D(x, y, z, hyperCubeClone[w + 1]);
+                activeCubes += CheckEachCube3D(x, y, z, hyperCubeClone[w + 1], HyperCube[w+1]);
                 hyperCubeClone[w + 1][z][y][x] = previousState;
             }
             if (w - 1 >= 0)
@@ -379,11 +381,11 @@ namespace AdventOfCode2020CSharp
                 {
                     activeCubes++;
                 }
-                activeCubes += CheckEachCube3D(x, y, z, hyperCubeClone[w - 1]);
+                activeCubes += CheckEachCube3D(x, y, z, hyperCubeClone[w - 1], HyperCube[w - 1]);
                 hyperCubeClone[w - 1][z][y][x] = previousState;
             }
             
-            activeCubes += CheckEachCube3D(x, y, z, hyperCubeClone[w]); 
+            activeCubes += CheckEachCube3D(x, y, z, hyperCubeClone[w], HyperCube[w]); 
             if (isActive && activeCubes < 2
                 || activeCubes > 3)
             {

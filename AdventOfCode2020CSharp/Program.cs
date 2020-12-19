@@ -26,12 +26,11 @@ namespace AdventOfCode2020CSharp
             sol17.CubeLayers = null; // get out of here old data
             sol17.CubeLayers = new(); // get out of here old data
             // part 2
-            sol17.Parse("day17_test.txt");
-            //sol17.Parse("day17.txt");
+            //sol17.Parse("day17_test.txt");
+            sol17.Parse("day17.txt");
             
             sol17.HyperCube.Add(sol17.CubeLayers);
           
-            // todo: figure out why is works for part 1 but not part 2
             for (int i = 0; i < 6; i++)
             {
                 Console.WriteLine($"Boot: {i+1}");
@@ -39,12 +38,15 @@ namespace AdventOfCode2020CSharp
                 sol17.PrintHyperCube();
             }
 
+            
+
             long sumActive4D = 0;
             foreach (var cube in sol17.HyperCube)
             {
                 sumActive4D += sol17.CountActive3D(cube);
             }
-
+            
+            // answer for part 2 for my data: 1980 
             Console.WriteLine($"part 2: {sumActive4D}");
             
             Console.WriteLine("end");
