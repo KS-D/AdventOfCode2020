@@ -9,55 +9,47 @@ namespace AdventOfCode2020CSharp
     {
         static void Main(string[] args)
         {
-            DayEighteenSolution sol18 = new();
+            DayNineteenSolution sol19 = new();
+            
+            sol19.Parse("day19_test.txt");
+//            sol19.Parse("day19.txt");
+            sol19.GetRules();
 
-            long value = sol18.SolveEquations(new List<string> {"1", "+", "2", "*", "3", "+", "4", "*", "5", "+", "6"});
-            Console.WriteLine(value);
-            var postFix = sol18.GetPostFix(new List<string> {"1", "+", "2", "*", "3", "+", "4", "*", "5", "+", "6"});
-            foreach (var p in postFix)
-            {
-                Console.Write(p + " ");
-            }
+            Dictionary<int, List<string>> patterns = sol19.SeedPatterns();
+            
+            List<string> patternFor0 = sol19.PatternForKey(0, patterns);
+            
+            //129
+            //Console.WriteLine($"{sol19.CountValidMessages(patternFor0)}");
+            
+            //part 2
+            DayNineteenSolution sol19Part2 = new();
+            sol19Part2.Parse("day19_test2.txt");
+            //sol19Part2.Parse("day19.txt");
+            sol19Part2.GetRules();
+            
+            List<int> leftRule = new List<int> { 42 };
+            List<int> rightRule = new List<int> { 42, 8 };
+            sol19Part2.RuleToRule[8] = new(' ', leftRule, rightRule);
+            var leftRule2 = new List<int> { 42, 31 };
+            var rightRule2 = new List<int> { 42, 11, 31 };
+            sol19Part2.RuleToRule[11] = new(' ', leftRule2, rightRule2);
+            
+            Dictionary<int, List<string>> patterns2 = sol19Part2.SeedPatterns();
+            
+            var patternFor42 = sol19Part2.PatternForKey(42, patterns2);
+            var patternFor31 = sol19Part2.PatternForKey(31, patterns2);
+            var patternsFor8 = sol19Part2.GenerateSpecialCase8(8, patterns2, 3);
+
+            var patternsFor11 = sol19Part2.GenerateSpecialCase11(11, patterns2, 1);
+            Console.WriteLine("Past patterns for 11");
+            patterns2 = sol19Part2.SeedPatterns();
+            //patterns2.Add(8, patternsFor8.ToList());
+            //patterns2.Add(11, patternsFor11.ToList());
+            var validStrings = sol19Part2.PatternForKey(0, patterns2);
+            
+            Console.WriteLine($"{sol19Part2.CountValidMessages(validStrings)}");
             Console.WriteLine();
-            
-            var answer = sol18.EvaluatePostfix(postFix);
-            Console.WriteLine($"{answer}");
-            
-            postFix = sol18.GetPostFix(new List<string> {"1", "+", "(", "2", "*", "3", ")","+", "(","4", "*", "(","5", "+", "6",")",")"});
-            answer = sol18.EvaluatePostfix(postFix);
-            
-            Console.WriteLine($"{answer}");
-
-            List<long> results = new();
-            sol18.Parse("day18.txt");
-
-            foreach (var equation in sol18.Input)
-            {
-                var postfix = sol18.GetPostFix(equation);
-                results.Add(sol18.EvaluatePostfix(postfix));
-            }
-
-            foreach (var result in results)
-            {
-                Console.WriteLine(result);
-            }
-
-            long partOneAnswer = results.Aggregate((x, y) => x+y);
-            // 23507031841020 is the right answer for my data
-            Console.WriteLine($"part 1: {partOneAnswer}");
-
-            // part 2
-
-            List<long> result2 = new();
-            foreach (var equation in sol18.Input)
-            {
-                var postfix = sol18.GetPostFix(equation, true);
-                result2.Add(sol18.EvaluatePostfix(postfix));
-            }
-
-            long partTwoAnswer = result2.Aggregate((x, y) => x+y);
-
-            Console.WriteLine($"part 2: {partTwoAnswer}");
         }
     }
 }
